@@ -1,34 +1,31 @@
 <script setup>
-import { PlusIcon } from '@heroicons/vue/24/outline';
 import ActivityItem from '../components/ActivityItem.vue'
-import BaseButton from '../components/BaseButton.vue';
-import { validateActivities, isActivityValid } from '../validators'
+import TheActivityForm from '../components/TheActivityForm.vue'
+import { isActivityValid, validateActivities } from '../validators';
+import TheActivitiesEmptyState from '../components/TheActivitiesEmptyState.vue'
 
 defineProps({
     activities: {
         required: true,
         type: Array,
-        validator: validateActivities
+        valdator: validateActivities
     }
 })
 
 const emit = defineEmits({
+    submit: isActivityValid,
     deleteActivity: isActivityValid
 })
 </script>
 
 
 <template>
-    <div>
-        <ul class="divide-y">
-            <ActivityItem v-for="activity in activities" :key="activity" :activity="activity"
+    <div class="flex flex-col grow">
+        <ul v-if="activities.length" class="divide-y grow">
+            <ActivityItem v-for="activity in activities" :key="activity.id" :activity="activity"
                 @delete="emit('deleteActivity', activity)" />
         </ul>
-        <form class="sticky bottom-[57px] flex gap-2 border-t bg-white p-4">
-            <input type="text" class="w-full rounded border px-4 text-xl" placeholder="Activity name">
-            <BaseButton>
-                <PlusIcon class="h-8" />
-            </BaseButton>
-        </form>
+        <TheActivitiesEmptyState v-else />
+        <TheActivityForm @submit="emit('createActivity', $event)" />
     </div>
 </template>
