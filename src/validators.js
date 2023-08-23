@@ -44,7 +44,7 @@ export function isNumberOrNull(value) {
   return isNumber(value) || isNull(value)
 }
 
-function isNull(value) {
+export function isNull(value) {
   return value === null
 }
 
@@ -66,4 +66,8 @@ export function isHourValid(hour) {
 
 function isString(label) {
   return typeof label === 'string'
+}
+
+export function isSelectValueValid(value) {
+  return isNotEmptyString(value) || isNumberOrNull(value) || isNull(value)
 }
