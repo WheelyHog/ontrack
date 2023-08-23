@@ -29,9 +29,14 @@ function createActivity(activity) {
   activities.value.push(activity)
 }
 
-function setTimelineItemActivity({ timelineItem, activity }) {
-  timelineItem.activityId = activity?.id || null
+function setTimelineItemActivity(timelineItem, activity) {
+  timelineItem.activityId = activity.id
 }
+
+function setActivitySecondsToComplete(activity, secondsToComplete) {
+  activity.secondsToComplete = secondsToComplete
+}
+
 </script>
 
 <template>
@@ -40,7 +45,7 @@ function setTimelineItemActivity({ timelineItem, activity }) {
     <TheTimeLine v-show="currentPage === PAGE_TIMELINE" :timeline-items="timelineItems" :activities="activities"
       :activity-select-options="activitySelectOptions" @set-timeline-item-activity="setTimelineItemActivity" />
     <TheActivities v-show="currentPage === PAGE_ACTIVITIES" :activities="activities" @delete-activity="deleteActivity"
-      @create-activity="createActivity" />
+      @create-activity="createActivity" @set-activity-seconds-to-complete="setActivitySecondsToComplete" />
     <TheProgress v-show="currentPage === PAGE_PROGRESS" />
   </main>
   <TheNav :currennt-page="currentPage" @navigate="currentPage = $event" />
