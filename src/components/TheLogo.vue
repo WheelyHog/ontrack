@@ -5,6 +5,6 @@ import { PAGE_TIMELINE } from '../constants';
 
 <template>
     <a :href="`#${PAGE_TIMELINE}`">
-        <img src="../assets/img/hog logo.svg" alt="logo" class="h-9">
+        <img src="../assets/img/hog logo.svg" alt="logo" class="h-11">
     </a>
 </template>

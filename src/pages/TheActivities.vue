@@ -1,43 +1,48 @@
 <script setup>
 import ActivityItem from '../components/ActivityItem.vue'
 import TheActivityForm from '../components/TheActivityForm.vue'
-import { isActivityValid, isNumber, validateActivities } from '../validators';
+import {isActivityValid, isNumber, validateActivities, validateTimelineItems} from '@/validators';
 import TheActivitiesEmptyState from '../components/TheActivitiesEmptyState.vue'
 
 defineProps({
-    activities: {
-        required: true,
-        type: Array,
-        valdator: validateActivities
-    }
+  activities: {
+    required: true,
+    type: Array,
+    validator: validateActivities
+  },
+  timelineItems: {
+    required: true,
+    type: Array,
+    validator: validateTimelineItems
+  },
 })
 
 const emit = defineEmits({
-    submit: isActivityValid,
-    deleteActivity: isActivityValid,
-    setActivitySecondsToComplete(activity) {
-        return [
-            isActivityValid(activity),
-            isNumber(secondsToComplete)
-        ].every(Boolean)
-    }
+  submit: isActivityValid,
+  deleteActivity: isActivityValid,
+  setActivitySecondsToComplete(activity) {
+    return [
+      isActivityValid(activity),
+      isNumber(secondsToComplete)
+    ].every(Boolean)
+  }
 })
 
 function setSecondsToComplete(activity, secondsToComplete) {
-    emit('setActivitySecondsToComplete', activity, secondsToComplete)
+  emit('setActivitySecondsToComplete', activity, secondsToComplete)
 }
 
 </script>
 
 
 <template>
-    <div class="flex flex-col grow">
-        <ul v-if="activities.length" class="divide-y grow">
-            <ActivityItem v-for="activity in activities" :key="activity.id" :activity="activity"
-                @delete="emit('deleteActivity', activity)"
-                @set-seconds-to-complete="setSecondsToComplete(activity, $event)" />
-        </ul>
-        <TheActivitiesEmptyState v-else />
-        <TheActivityForm @submit="emit('createActivity', $event)" />
-    </div>
+  <div class="flex flex-col grow">
+    <ul v-if="activities.length" class="divide-y grow">
+      <ActivityItem v-for="activity in activities" :key="activity.id" :activity="activity"
+                    @delete="emit('deleteActivity', activity)" :timeline-items="timelineItems"
+                    @set-seconds-to-complete="setSecondsToComplete(activity, $event)"/>
+    </ul>
+    <TheActivitiesEmptyState v-else/>
+    <TheActivityForm @submit="emit('createActivity', $event)"/>
+  </div>
 </template>
