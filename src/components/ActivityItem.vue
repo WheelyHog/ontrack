@@ -32,7 +32,7 @@ const setActivitySecondsToComplete = inject(setActivitySecondsToCompleteKey)
     </div>
     <div class="flex gap-2">
       <BaseSelect class="font-mono grow" placeholder="hh:mm" :options="periodSelectOptions"
-                  :selected="activity.secondsToComplete || null" @select="setActivitySecondsToComplete(activity, $event || 0)"/>
+                  :selected="activity.secondsToComplete || null" @select="setActivitySecondsToComplete(activity, $event)"/>
       <ActivitySecondsToComplete v-if="activity.secondsToComplete" :activity="activity"
       />
     </div>

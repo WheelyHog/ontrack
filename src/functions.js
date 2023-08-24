@@ -1,5 +1,4 @@
 import {
-    HOURS_IN_DAY,
     SECONDS_IN_HOUR,
     SECONDS_IN_MINUTE,
     MINUTES_IN_HOUR,
@@ -7,12 +6,8 @@ import {
 } from './constants'
 import {isNull} from './validators'
 
-export function generateTimelineItems(activities) {
-    return [...Array(HOURS_IN_DAY).keys()].map((hour) => ({
-        hour,
-        activityId: [0, 1, 2, 3, 4].includes(hour) ? activities[hour % 3].id : null,
-        activitySeconds: [0, 1, 2, 3, 4].includes(hour) ? hour * 600 : 0
-    }))
+export  function currentHour(){
+    return new Date().getHours()
 }
 
 export function generateActivitySelectOptions(activities) {
