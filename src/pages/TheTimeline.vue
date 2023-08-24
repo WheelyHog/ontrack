@@ -1,11 +1,7 @@
 <script setup>
 import TimelineItem from '../components/TimelineItem.vue'
 import {
-  isTimelineItemValid,
-  validateActivities,
-  validateSelectOptions,
-  isActivityValid,
-  isPageValid, validateTimelineItems, isNumber
+  isPageValid, validateTimelineItems
 } from '@/validators';
 import {nextTick, ref, watchPostEffect} from 'vue';
 import {MIDNIGHT_HOUR, PAGE_TIMELINE} from '@/constants';
@@ -15,16 +11,6 @@ const props = defineProps({
     required: true,
     type: Array,
     validator: validateTimelineItems
-  },
-  activitySelectOptions: {
-    required: true,
-    type: Array,
-    validator: validateSelectOptions
-  },
-  activities: {
-    required: true,
-    type: Array,
-    validator: validateActivities
   },
   currentPage: {
     required: true,
@@ -55,26 +41,16 @@ function scrollToHour(hour = null, isSmooth = true) {
   }
 }
 
-const emit = defineEmits({
-  updateTimelineItemActivitySeconds(timelineItem, activitySeconds){
-return [isTimelineItemValid(timelineItem), isNumber(activitySeconds)].every(Boolean)
-  },
-  setTimelineItemActivity(timelineItem, activity) {
-    return [
-      isTimelineItemValid(timelineItem),
-      isActivityValid(activity)
-    ].every(Boolean)
-  }
-})
 </script>
 
 <template>
   <div class="mt-7">
     <ul>
-      <TimelineItem v-for="timelineItem in timelineItems" :key="timelineItem.hour" :timeline-item="timelineItem"
-                    :activities="activities" :activity-select-options="activitySelectOptions"
-                    @select-activity="emit('setTimelineItemActivity', { timelineItem, $event })"
-                    ref="timelineItemRefs" @scroll-to-hour="scrollToHour" @update-activity-seconds="emit('updateTimelineItemActivitySeconds', timelineItem, $event)"/>
+      <TimelineItem v-for="timelineItem in timelineItems"
+                    :key="timelineItem.hour"
+                    :timeline-item="timelineItem"
+                    ref="timelineItemRefs"
+                    @scroll-to-hour="scrollToHour" />
     </ul>
   </div>
 </template>
