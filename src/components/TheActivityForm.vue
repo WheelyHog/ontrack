@@ -3,6 +3,7 @@ import BaseButton from './BaseButton.vue';
 import {PlusIcon} from '@heroicons/vue/24/outline';
 import {inject, nextTick, ref} from 'vue';
 import {id} from '@/functions';
+import {createActivityKey} from '@/keys'
 
 async function submit() {
   createActivity ({
@@ -19,7 +20,7 @@ async function submit() {
 
 const name = ref('')
 
-const createActivity = inject('createActivity')
+const createActivity = inject(createActivityKey)
 </script>
 
 <template>

@@ -2,6 +2,7 @@
 import {isActivityValid} from "@/validators";
 import {formatSeconds, getTotalActivitySeconds} from "@/functions";
 import {computed, inject} from "vue";
+import {timelineItemsKey} from '@/keys'
 
 const props = defineProps({
   activity: {
@@ -11,7 +12,7 @@ const props = defineProps({
   },
 })
 
-const timelineItems = inject('timelineItems')
+const timelineItems = inject(timelineItemsKey)
 const classes = computed(() => `flex items-center rounded bg-purple-100 px-2 font-mono text-xl text-purple-600 ${colorClasses.value}`)
 
 const colorClasses = computed(() =>
