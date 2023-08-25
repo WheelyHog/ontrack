@@ -1,8 +1,7 @@
 import {
-    SECONDS_IN_HOUR,
     SECONDS_IN_MINUTE,
     MINUTES_IN_HOUR,
-    MILLISECONDS_IN_SECOND
+    MILLISECONDS_IN_SECOND, LOW_PERCENT, MEDIUM_PERCENT, HUNDRED_PERCENT
 } from './constants'
 import {isNull} from './validators'
 
@@ -10,21 +9,12 @@ export  function currentHour(){
     return new Date().getHours()
 }
 
-export function generateActivitySelectOptions(activities) {
-    return activities.map((activity) => ({label: activity.name, value: activity.id}))
-}
 
 export function id() {
     return Date.now().toString(36) + Math.random().toString(36).substring(2)
 }
 
-export function generateActivities() {
-    return ['Coding', 'Reading', 'Training'].map((name, hours) => ({
-        id: id(),
-        name,
-        secondsToComplete: hours * SECONDS_IN_HOUR
-    }))
-}
+
 
 export function normalizeSelectValue(value) {
     return isNull(value) || isNaN(value) ? value : +value
@@ -48,6 +38,10 @@ function generatePeriodSelectOptionsLabel(periodInMinutes) {
     return `${hours}:${minutes}`
 }
 
+export  function formatSecondsWithSign(seconds){
+    return `${seconds>= 0 ? '+': '-'}${formatSeconds(seconds)}`
+}
+
 export function formatSeconds(seconds) {
     const date = new Date()
     date.setTime(Math.abs(seconds) * MILLISECONDS_IN_SECOND)
@@ -55,8 +49,9 @@ export function formatSeconds(seconds) {
     return utc.substring(utc.indexOf(':') - 2, utc.indexOf(':') + 6)
 }
 
-export function getTotalActivitySeconds(activity, timelineItems) {
-    return timelineItems
-        .filter((timelineItem) => timelineItem.activityId === activity.id)
-        .reduce((totalSeconds, timelineItem) => Math.round(timelineItem.activitySeconds + totalSeconds), 0)
+export function getProgressColorClass(percentage){
+    if(percentage < LOW_PERCENT) return 'bg-red-500'
+    if(percentage < MEDIUM_PERCENT) return 'bg-yellow-500'
+    if(percentage <HUNDRED_PERCENT) return 'bg-blue-500'
+    return 'bg-green-500'
 }
